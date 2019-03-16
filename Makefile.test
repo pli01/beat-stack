@@ -1,0 +1,30 @@
+#
+# unit-test
+#
+# export all variable
+include Makefile
+
+export
+include ${APP_PATH}/tests/Makefile
+
+unit-test: beat-test
+#
+#
+$(APP_SERVICE_NAME)-test: $(APP_SERVICE_NAME)-prepare-test $(APP_SERVICE_NAME)-run-test $(APP_SERVICE_NAME)-clean-test
+
+$(APP_SERVICE_NAME)-prepare-test:
+	@echo "# $@ "
+	time ( cd ${TEST_APP_PATH} && $(MAKE) prepare-test )
+$(APP_SERVICE_NAME)-run-test:
+	@echo "# $@"
+	time ( cd ${TEST_APP_PATH} && $(MAKE) run-test )
+$(APP_SERVICE_NAME)-down-test:
+	@echo "# $@"
+	time ( cd ${TEST_APP_PATH} && $(MAKE) down-test )
+$(APP_SERVICE_NAME)-clean-test:
+	@echo "# $@"
+	time ( cd ${TEST_APP_PATH} && $(MAKE) clean-test )
+$(APP_SERVICE_NAME)-log-test:
+	@echo "# $@"
+	( cd ${TEST_APP_PATH} && $(MAKE) log-test )
+

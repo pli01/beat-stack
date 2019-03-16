@@ -1,0 +1,36 @@
+version: '3.5'
+networks:
+  testbeat:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+
+services:
+  testrunner:
+    image: "${testrunner_image_full}"
+    restart: always
+    networks:
+      testbeat:
+        aliases:
+          - testrunner
+    depends_on:
+      - metricbeat
+    volumes:
+      - "metricbeat_config:/metricbeat"
+
+  metricbeat:
+    image: "${metricbeat_image_full}"
+    user: root
+    networks:
+      testbeat:
+        aliases:
+          - metricbeat
+    command: ["--strict.perms=false", "--path.config", "/metricbeat"]
+    volumes:
+      - "metricbeat_config:/metricbeat:ro"
+      - "metricbeat_data:/usr/share/metricbeat/data:rw"
+
+#  environnement test
+volumes:
+  metricbeat_config:
+  metricbeat_data:
