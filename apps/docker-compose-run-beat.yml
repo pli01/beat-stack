@@ -7,9 +7,9 @@ services:
 #    hostname: "{{.Node.Hostname}}-metricbeat"
     user: root
     networks:
-      - beat
+      - apps_prodnetwork
     volumes:
-      - "${app_stack_conf_dir}:/metricbeat:ro"
+      - "${app_stack_conf_dir}/metricbeat:/metricbeat:ro"
       - metricbeat:/usr/share/metricbeat/data
       - /var/run/docker.sock:/var/run/docker.sock
 #      - /proc:/hostfs/proc:ro
@@ -26,16 +26,16 @@ services:
 #    deploy:
 #      mode: global
 #
-#networks:
-#  elastic:
-#    external: true
+networks:
+  apps_prodnetwork:
+    external: true
 #    # https://www.elastic.co/guide/en/beats/metricbeat/current/running-on-docker.html#monitoring-host
 #    name: host
-networks:
-  beat:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1450
-
+#networks:
+#  beat:
+#    driver: bridge
+#    driver_opts:
+#      com.docker.network.driver.mtu: 1450
+#
 volumes:
   metricbeat:

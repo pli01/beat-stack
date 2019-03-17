@@ -9,7 +9,7 @@ services:
     networks:
       - beat
     volumes:
-      - "${app_stack_conf_dir}:/metricbeat:ro"
+      - "${app_stack_conf_dir}/metricbeat:/metricbeat:ro"
       - metricbeat:/usr/share/metricbeat/data
       - /var/run/docker.sock:/var/run/docker.sock
 #      - /proc:/hostfs/proc:ro
