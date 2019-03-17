@@ -1,6 +1,17 @@
 version: '3.5'
 
 services:
+  heartbeat:
+    image: "${heartbeat_image_full}"
+#    hostname: "{{.Node.Hostname}}-heartbeat"
+    user: root
+    networks:
+      - beat
+    volumes:
+      - "${app_stack_conf_dir}/heartbeat:/heartbeat:ro"
+      - heartbeat:/usr/share/heartbeat/data
+    command: ["--strict.perms=false", "--path.config", "/heartbeat"]
+
   metricbeat:
     image: "${metricbeat_image_full}"
     # https://github.com/docker/swarmkit/issues/1951
@@ -16,15 +27,12 @@ services:
 #      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
 #      - /:/hostfs:ro
     command: ["--strict.perms=false", "--path.config", "/metricbeat"]
+#    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
 #    environment:
 #      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-node1}
 #      - KIBANA_HOST=${KIBANA_HOST:-node1}
 #      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
 #      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-changeme}
-#    # disable strict permission checks
-#    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
-#    deploy:
-#      mode: global
 #
 #networks:
 #  elastic:
@@ -39,3 +47,4 @@ networks:
 
 volumes:
   metricbeat:
+  heartbeat:

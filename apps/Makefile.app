@@ -1,12 +1,13 @@
 APP_SERVICE_NAME = beat
 APP_DOCKER_COMPOSE_BUILD = ${DC_PREFIX}-build-$(APP_SERVICE_NAME).yml
 APP_DOCKER_COMPOSE_RUN = ${DC_PREFIX}-run-$(APP_SERVICE_NAME).yml
-APP_PULL_IMAGES = metricbeat
+APP_PULL_IMAGES = metricbeat heartbeat
 
-APP_BUILD_IMAGES = metricbeat
+APP_BUILD_IMAGES = metricbeat heartbeat
 
 # Image name:version
 export metricbeat_image_full = docker.elastic.co/beats/metricbeat:6.6.2
+export heartbeat_image_full = docker.elastic.co/beats/heartbeat:6.6.2
 
 # Env build (ARG)
 export MIRROR_DEBIAN = $(shell echo $$MIRROR_DEBIAN )
