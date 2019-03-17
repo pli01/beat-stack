@@ -17,9 +17,14 @@ output.console:
   codec.json:
     pretty: true
     escape_html: false
+#
+#setup.dashboards.enabled: true
+#setup.kibana.host: "kibana:5601"
+#setup.kibana.protocol: "http"
 
 #
 #output.elasticsearch:
-#  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+#  hosts: 'elasticsearch:9200'
+
 #  username: '${ELASTICSEARCH_USERNAME:}'
 #  password: '${ELASTICSEARCH_PASSWORD:}'
