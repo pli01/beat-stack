@@ -18,7 +18,7 @@ services:
 #    hostname: "{{.Node.Hostname}}-metricbeat"
     user: root
     networks:
-      - apps_prodnetwork
+      - beat
     volumes:
       - "${app_stack_conf_dir}/metricbeat:/metricbeat:ro"
       - metricbeat:/usr/share/metricbeat/data

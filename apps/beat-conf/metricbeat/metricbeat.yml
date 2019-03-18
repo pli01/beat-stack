@@ -27,9 +27,9 @@ processors:
 
 
 output.console:
-  pretty: true
+  pretty: false
   codec.json:
-    pretty: true
+    pretty: false
     escape_html: false
 #
 #output.elasticsearch:

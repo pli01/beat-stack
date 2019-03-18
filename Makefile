@@ -11,7 +11,7 @@ export ROOT_DIR= $(shell pwd)
 export APP_PATH := $(shell cd apps && pwd)
 export APP_DATA := $(APP_PATH)
 export BUILD_TIME=$(shell date '+%Y%m%d-%H%M%S')
-export APP_VERSION := $(shell git describe --tags --always --dirty=-$(BUILD_TIME)-snapshot || cat VERSION || date +%Y%m%d )
+export APP_VERSION := $(shell bash ./ci/version.sh 2>&- || cat VERSION)
 export DC_DIR=${APP_PATH}
 export DC_PREFIX=${DC_DIR}/docker-compose
 export BUILD_DIR=${ROOT_DIR}/${APP}-${APP_VERSION}-build

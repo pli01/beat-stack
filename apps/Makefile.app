@@ -41,8 +41,8 @@ $(APP_SERVICE_NAME)-save-image:
 	for service in $(APP_BUILD_IMAGES) ; do \
 	image_name=$$(cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_BUILD) config | \
 	python -c 'import sys, yaml, json; cfg = json.loads(json.dumps(yaml.load(sys.stdin), sys.stdout, indent=4)); print cfg["services"]["'$$service'"]["image"]') ; \
-	  docker image save -o  $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar $$image_name ; \
-	  cp $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar ; \
+	  docker image save $$image_name | gzip -9c > $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz ; \
+	  cp $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
 	done
 
 $(APP_SERVICE_NAME)-clean-image:
@@ -59,8 +59,8 @@ $(APP_SERVICE_NAME)-publish:
 	    for service in \
                 $(APP_BUILD_IMAGES) \
            ; do \
-            file=$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar ; \
-            latest=$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar ; \
+            file=$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
+            latest=$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz ; \
             curl $(curl_args) -k -X PUT -T $$file -H 'X-Auth-Token: $(openstack_token)' $(dml_url)/$(publish_dir)/$(APP_VERSION)/$$file ; \
             curl $(curl_args) -k -X PUT -T $$latest -H 'X-Auth-Token: $(openstack_token)' $(dml_url)/$(publish_dir)/latest/$$latest ; \
            done ; \
@@ -68,12 +68,12 @@ $(APP_SERVICE_NAME)-publish:
 
 $(APP_SERVICE_NAME)-load-image:
 	( cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_RUN) config --services | while read service; do \
-	  docker load -i $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar ; \
+	  docker load -i $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
 	 done )
 
 $(APP_SERVICE_NAME)-get-build-image: build-dir
 	( cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_RUN) config --services | while read service; do \
-            file=$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar ; \
+            file=$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
             curl $(curl_args) -k -X GET -L $(dml_url)/$(publish_dir)/$(APP_VERSION)/$$file -o $(BUILD_DIR)/$$file ; \
 	 done )
 

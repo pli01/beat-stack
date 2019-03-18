@@ -18,18 +18,18 @@ heartbeat.config:
 processors:
   - add_cloud_metadata: ~
 
-setup.dashboards.enabled: true
-setup.kibana.host: "kibana:5601"
-setup.kibana.protocol: "http"
+#setup.dashboards.enabled: true
+#setup.kibana.host: "kibana:5601"
+#setup.kibana.protocol: "http"
 #setup.kibana.path: /kibana
 
 #output.console:
-#  pretty: true
+#  pretty: false
 #  codec.json:
-#    pretty: true
+#    pretty: false
 #    escape_html: false
 #
-output.elasticsearch:
-  hosts: 'elasticsearch:9200'
+#output.elasticsearch:
+#  hosts: 'elasticsearch:9200'
 #  username: '${ELASTICSEARCH_USERNAME:}'
 #  password: '${ELASTICSEARCH_PASSWORD:}'

@@ -1,3 +1,4 @@
+*-build
 artifacts
 VERSION
 apps/tests/config.tar.gz
