@@ -17,17 +17,21 @@ services:
     # https://github.com/docker/swarmkit/issues/1951
 #    hostname: "{{.Node.Hostname}}-metricbeat"
     user: root
-    networks:
-      - beat
+    network_mode: host
+    #    networks:
+    #      - beat
     volumes:
       - "${app_stack_conf_dir}/metricbeat:/metricbeat:ro"
       - metricbeat:/usr/share/metricbeat/data
       - /var/run/docker.sock:/var/run/docker.sock
-#      - /proc:/hostfs/proc:ro
-#      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
-#      - /:/hostfs:ro
-    command: ["--strict.perms=false", "--path.config", "/metricbeat"]
-#    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+    command: ["--strict.perms=false", "--path.config", "/metricbeat", "-system.hostfs=/hostfs"]
+#    command: ["--strict.perms=false", "--path.config", "/metricbeat"]
+#    extra_hosts:
+#      - "elasticsearch:192.168.48.2" # The IP to access host from container
+#      - "kibana:192.168.48.3" # The IP to access host from container
 #    environment:
 #      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-node1}
 #      - KIBANA_HOST=${KIBANA_HOST:-node1}
