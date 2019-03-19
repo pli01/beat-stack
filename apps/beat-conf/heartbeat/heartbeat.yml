@@ -22,14 +22,19 @@ processors:
 #setup.kibana.host: "kibana:5601"
 #setup.kibana.protocol: "http"
 #setup.kibana.path: /kibana
+# setup.template.name: "customname"
+# setup.template.pattern: "customname-*"
+# setup.template.overwrite: true
 
-#output.console:
-#  pretty: false
-#  codec.json:
-#    pretty: false
-#    escape_html: false
+output.console:
+  pretty: false
+  codec.json:
+    pretty: false
+    escape_html: false
 #
 #output.elasticsearch:
 #  hosts: 'elasticsearch:9200'
+
 #  username: '${ELASTICSEARCH_USERNAME:}'
 #  password: '${ELASTICSEARCH_PASSWORD:}'
+#  index: "customname-%{[beat.version]}-%{+yyyy.MM.dd}"
