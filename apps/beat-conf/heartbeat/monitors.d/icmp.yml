@@ -1,7 +1,17 @@
-  - type: icmp
-    schedule: '@every 5s'
-    hosts:
-      - elasticsearch
-      - kibana
-    enabled: true
+- type: icmp
+  schedule: '@every 5s'
+  hosts: '${HEARTBEAT_ICMP_HOSTS}'
+#  hosts:
+#    - elasticsearch
+#    - kibana
+  # Enable/Disable monitor
+  enabled: ${HEARTBEAT_ICMP_ENABLE:-false}
 
+  # Configure IP protocol types to ping on if hostnames are configured.
+  # Ping all resolvable IPs if `mode` is `all`, or only one IP if `mode` is `any`.
+  ipv4: true
+  ipv6: false
+  mode: any
+
+  # ICMP wait: duration to wait before emitting another ICMP Echo Request
+  # wait: 1s

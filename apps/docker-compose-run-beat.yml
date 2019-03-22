@@ -3,7 +3,6 @@ version: '3.5'
 services:
   heartbeat:
     image: "${heartbeat_image_full}"
-#    hostname: "{{.Node.Hostname}}-heartbeat"
     user: root
     networks:
       - beat
@@ -11,11 +10,14 @@ services:
       - "${app_stack_conf_dir}/heartbeat:/heartbeat:ro"
       - heartbeat:/usr/share/heartbeat/data
     command: ["--strict.perms=false", "--path.config", "/heartbeat"]
+    environment:
+      - HEARTBEAT_HTTP_URLS=${HEARTBEAT_HTTP_URLS}
+      - HEARTBEAT_HTTP_ENABLE=${HEARTBEAT_HTTP_ENABLE:-false}
+      - HEARTBEAT_ICMP_HOSTS=${HEARTBEAT_ICMP_HOSTS}
+      - HEARTBEAT_ICMP_ENABLE=${HEARTBEAT_ICMP_ENABLE:-false}
 
   metricbeat:
     image: "${metricbeat_image_full}"
-    # https://github.com/docker/swarmkit/issues/1951
-#    hostname: "{{.Node.Hostname}}-metricbeat"
     user: root
     network_mode: host
     #    networks:
