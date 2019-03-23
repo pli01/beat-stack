@@ -34,7 +34,9 @@ services:
 #    extra_hosts:
 #      - "elasticsearch:192.168.48.2" # The IP to access host from container
 #      - "kibana:192.168.48.3" # The IP to access host from container
-#    environment:
+    environment:
+      - METRICBEAT_MONGODB_URLS=${METRICBEAT_MONGODB_URLS}
+      - METRICBEAT_MONGODB_ENABLE=${METRICBEAT_MONGODB_ENABLE:-false}
 #      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-node1}
 #      - KIBANA_HOST=${KIBANA_HOST:-node1}
 #      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
