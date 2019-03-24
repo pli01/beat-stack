@@ -15,8 +15,7 @@
   # The username and password can also be set using the respective configuration
   # options. The credentials in the URL take precedence over the username and
   # password configuration options.
-  #hosts: ["mongodb://admin:changeme@192.168.0.16:27017"]
-  hosts: ["$METRICBEAT_MONGODB_URLS"]
+  hosts: "${METRICBEAT_MONGODB_URLS}"
   enabled: ${METRICBEAT_MONGODB_ENABLE:-false}
 
   # Optional SSL. By default is off.
