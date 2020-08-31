@@ -26,6 +26,8 @@ export HEARTBEAT_ICMP_HOSTS  := $(shell echo $$HEARTBEAT_ICMP_HOSTS)
 export HEARTBEAT_ICMP_ENABLE := $(shell [ -z "${HEARTBEAT_ICMP_HOSTS}" ] || echo true )
 export METRICBEAT_MONGODB_URLS   := $(shell echo $$METRICBEAT_MONGODB_URLS)
 export METRICBEAT_MONGODB_ENABLE := $(shell [ -z "${METRICBEAT_MONGODB_URLS}" ] || echo true )
+export METRICBEAT_NGINX_HOSTS    := $(shell echo $$METRICBEAT_NGINX_HOSTS)
+export METRICBEAT_NGINX_ENABLE   := $(shell [ -z "${METRICBEAT_NGINX_HOSTS}" ] || echo true )
 
 $(APP_SERVICE_NAME)-build: $(APP_SERVICE_NAME)-build-image build-dir $(APP_SERVICE_NAME)-save-image
 
