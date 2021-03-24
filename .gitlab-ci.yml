@@ -1,6 +1,6 @@
 image: debian:stretch
 variables:
-## Enable under shared runner 
+## Enable under shared runner
 ## In gitlab/variables : declare Variable File Variable named http_proxy_shared, and no_proxy_shared
   http_proxy: $http_proxy_shared
   https_proxy: $http_proxy_shared
@@ -29,9 +29,22 @@ default:
     - echo "# Before script"
     - echo "$BUILD_CONFIG_FILE" > .build_config
     - source .build_config
-    - time sudo -E /bin/bash -c 'ci/before_scripts.sh'
+    - time ci/before_scripts.sh
 
 build_beat_stack:
+  variables:
+    PROJECT_NAME: $PROJECT_NAME
+    OS_CONFIG: $OS_COMMON_CONFIG
+    OS_PROJECT_NAME: $OS_PROJECT_NAME_TEST
+    OS_USERNAME: $OS_USERNAME_TEST
+    OS_PASSWORD: $OS_PASSWORD_TEST
   stage: build
   script:
     - echo "# Build"
+    - time ci/build.sh
+    - echo "# Publish"
+    - echo "$OS_CONFIG" > .os.rc
+    - source .os.rc
+    - openstack --insecure container list
+    - time ci/run_publish.sh
+
