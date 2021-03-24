@@ -32,6 +32,22 @@ default:
     - time ci/before_scripts.sh
 
 build_beat_stack:
+  except:
+    - master
+  variables:
+    PROJECT_NAME: $PROJECT_NAME
+    OS_CONFIG: $OS_COMMON_CONFIG
+    OS_PROJECT_NAME: $OS_PROJECT_NAME_TEST
+    OS_USERNAME: $OS_USERNAME_TEST
+    OS_PASSWORD: $OS_PASSWORD_TEST
+  stage: build
+  script:
+    - echo "# Build"
+    - time ci/build.sh
+
+build_and_publish_beat_stack:
+  only:
+    - master
   variables:
     PROJECT_NAME: $PROJECT_NAME
     OS_CONFIG: $OS_COMMON_CONFIG
