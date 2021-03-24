@@ -5,7 +5,7 @@ hostname
 id
 # repo docker-ce
 mirror_docker="${MIRROR_DOCKER:-https://download.docker.com/linux/debian}"
-mirror_docker_key="${MIRROR_DOCKER_key:-https://download.docker.com/linux/debian/gpg}"
+mirror_docker_key="${MIRROR_DOCKER_KEY:-https://download.docker.com/linux/debian/gpg}"
 
 # docker version, docker-compose
 docker_version="docker-ce=5:19.03.11~3-0~debian-stretch"
