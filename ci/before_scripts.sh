@@ -1,8 +1,9 @@
 #!/bin/bash
 set -xe -o pipefail
-pwd
-hostname
-id
+
+test -f $(dirname $0)/lib-common.sh && source $(dirname $0)/lib-common.sh
+trap clean EXIT QUIT KILL
+
 # repo docker-ce
 mirror_docker="${MIRROR_DOCKER:-https://download.docker.com/linux/debian}"
 mirror_docker_key="${MIRROR_DOCKER_KEY:-https://download.docker.com/linux/debian/gpg}"
@@ -21,7 +22,7 @@ PACKAGE_CUSTOM="sudo make git unzip python-pip python-dev \
      jq"
 
 # conf apt / proxy (use http_proxy_common instead of http_proxy_shared, due to latency)
-if [ -n "$http_proxy_common" ] ; then 
+if [ -n "$http_proxy_common" ] ; then
   cat > /etc/apt/apt.conf.d/01proxy <<EOF_PROXY
 Acquire::http::Proxy "$http_proxy_common";
 Acquire::https::Proxy "$http_proxy_common";
@@ -29,7 +30,7 @@ EOF_PROXY
 fi
 
 # conf apt source list
-if [ -n "$MIRROR_DEBIAN" ] ; then 
+if [ -n "$MIRROR_DEBIAN" ] ; then
   cat > /etc/apt/sources.list <<EOF
 deb $MIRROR_DEBIAN/debian9 stretch main contrib non-free
 deb $MIRROR_DEBIAN/debian9 stretch-backports main contrib non-free
@@ -74,3 +75,5 @@ openstack  --version || exit $?
 
 # clean all dummy container and images before start
 docker system prune -f ||true
+
+slack_notification "0" "Started"
