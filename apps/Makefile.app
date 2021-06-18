@@ -55,6 +55,7 @@ $(APP_SERVICE_NAME)-save-image:
 	  cp $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-latest-image.tar.gz $(BUILD_DIR)/$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
 	done
 
+
 $(APP_SERVICE_NAME)-clean-image:
 	@(cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_BUILD) config | \
            python -c 'import sys, yaml, json; json.dump(yaml.load(sys.stdin), sys.stdout, indent=4)' | \
@@ -86,6 +87,9 @@ $(APP_SERVICE_NAME)-get-build-image: build-dir
             file=$(APP)-$(APP_SERVICE_NAME)-$$service-$(APP_VERSION)-image.tar.gz ; \
             curl $(curl_args) -k -X GET -L $(dml_url)/$(publish_dir)/$(APP_VERSION)/$$file -o $(BUILD_DIR)/$$file ; \
 	 done )
+
+$(APP_SERVICE_NAME)-pull:
+	if [ ! -z "$(APP_PULL_IMAGES)" ] ; then ( cd ${APP_PATH} && bash retry_cmd.sh ${DC} -f $(APP_DOCKER_COMPOSE_RUN) pull $(APP_PULL_IMAGES) ) ; fi
 
 $(APP_SERVICE_NAME)-up:
 	@( cd ${APP_PATH} && ${DC} -f $(APP_DOCKER_COMPOSE_RUN) up -d 2>&1 | grep -v orphan )
