@@ -3,6 +3,7 @@ version: '3.5'
 services:
   heartbeat:
     image: "${heartbeat_image_full}"
+    restart: unless-stopped
     user: root
     networks:
       - beat
@@ -18,6 +19,7 @@ services:
 
   metricbeat:
     image: "${metricbeat_image_full}"
+    restart: unless-stopped
     user: root
     network_mode: host
     #    networks:
