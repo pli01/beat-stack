@@ -20,8 +20,10 @@ export app_stack_conf_dir = ${APP_PATH}/$(APP_SERVICE_NAME)-conf
 export app_stack_data_dir = ${APP_DATA}
 
 # Config heartbeat
+export HEARTBEAT_HTTP_SCHEDULE   := $(shell echo $$HEARTBEAT_HTTP_SCHEDULE )
 export HEARTBEAT_HTTP_URLS   := $(shell echo $$HEARTBEAT_HTTP_URLS)
 export HEARTBEAT_HTTP_ENABLE := $(shell [ -z "${HEARTBEAT_HTTP_URLS}" ] || echo true )
+export HEARTBEAT_ICMP_SCHEDULE  := $(shell echo $$HEARTBEAT_ICMP_SCHEDULE)
 export HEARTBEAT_ICMP_HOSTS  := $(shell echo $$HEARTBEAT_ICMP_HOSTS)
 export HEARTBEAT_ICMP_ENABLE := $(shell [ -z "${HEARTBEAT_ICMP_HOSTS}" ] || echo true )
 export METRICBEAT_MONGODB_URLS   := $(shell echo $$METRICBEAT_MONGODB_URLS)

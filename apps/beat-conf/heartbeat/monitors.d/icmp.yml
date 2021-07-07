@@ -1,5 +1,5 @@
 - type: icmp
-  schedule: '@every 5s'
+  schedule: '${HEARTBEAT_ICMP_SCHEDULE:-@every 5s}'
   hosts: '${HEARTBEAT_ICMP_HOSTS}'
 #  hosts:
 #    - elasticsearch
