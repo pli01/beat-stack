@@ -12,8 +12,10 @@ services:
       - heartbeat:/usr/share/heartbeat/data
     command: ["--strict.perms=false", "--path.config", "/heartbeat"]
     environment:
+      - HEARTBEAT_HTTP_SCHEDULE=${HEARTBEAT_HTTP_SCHEDULE:-@every 5s}
       - HEARTBEAT_HTTP_URLS=${HEARTBEAT_HTTP_URLS}
       - HEARTBEAT_HTTP_ENABLE=${HEARTBEAT_HTTP_ENABLE:-false}
+      - HEARTBEAT_ICMP_SCHEDULE=${HEARTBEAT_ICMP_SCHEDULE:-@every 5s}
       - HEARTBEAT_ICMP_HOSTS=${HEARTBEAT_ICMP_HOSTS}
       - HEARTBEAT_ICMP_ENABLE=${HEARTBEAT_ICMP_ENABLE:-false}
 

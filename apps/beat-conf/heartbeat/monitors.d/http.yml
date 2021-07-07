@@ -1,5 +1,5 @@
 - type: http
-  schedule: '@every 5s'
+  schedule: '${HEARTBEAT_HTTP_SCHEDULE:-@every 5s}'
   urls: '${HEARTBEAT_HTTP_URLS}'
 #  urls:
 #    - http://elasticsearch:9200
