@@ -28,7 +28,7 @@ fi
 
 # download install repo
 mkdir -p ${METRIC_NAME}
-curl -kL -s $curl_args ${METRIC_URL} | \
+eval curl -kL -s $curl_args ${METRIC_URL} | \
    tar -zxvf - --strip-components=1 -C ${METRIC_NAME}
 # install app (role)
 ( cd ${METRIC_NAME}
@@ -40,6 +40,6 @@ curl -kL -s $curl_args ${METRIC_URL} | \
   make beat-up$app_role
 
   [ -n "$DOCKERHUB_TOKEN" -a -n "$DOCKERHUB_LOGIN" ] && docker logout
-  exit 0
 )
 
+exit $?
